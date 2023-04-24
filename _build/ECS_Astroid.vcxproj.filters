@@ -74,5 +74,11 @@
     <ClInclude Include="..\game\game\ECSManager.hpp">
       <Filter>Game</Filter>
     </ClInclude>
+    <ClInclude Include="..\game\game\Entity.hpp">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\game\game\Components.hpp">
+      <Filter>Game</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

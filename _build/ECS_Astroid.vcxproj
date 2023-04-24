@@ -192,7 +192,9 @@
     <ClInclude Include="..\game\engine\IGame.hpp" />
     <ClInclude Include="..\game\engine\Renderer.hpp" />
     <ClInclude Include="..\game\engine\Window.hpp" />
+    <ClInclude Include="..\game\game\Components.hpp" />
     <ClInclude Include="..\game\game\ECSManager.hpp" />
+    <ClInclude Include="..\game\game\Entity.hpp" />
     <ClInclude Include="..\game\game\Game.hpp" />
     <ClInclude Include="..\game\game\IScene.hpp" />
     <ClInclude Include="..\game\game\SceneGame.hpp" />
