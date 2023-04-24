@@ -101,6 +101,7 @@
       <AdditionalIncludeDirectories>..\game;..\game\src;..\game\include;..\raylib-master\src;..\raylib-master\src\external;..\raylib-master\src\external\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -173,6 +174,9 @@
     <ClCompile Include="..\game\engine\GMath.cpp" />
     <ClCompile Include="..\game\engine\Renderer.cpp" />
     <ClCompile Include="..\game\engine\Window.cpp" />
+    <ClCompile Include="..\game\game\ECSManager.cpp" />
+    <ClCompile Include="..\game\game\Game.cpp" />
+    <ClCompile Include="..\game\game\SceneGame.cpp" />
     <ClCompile Include="..\game\src\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -188,6 +192,10 @@
     <ClInclude Include="..\game\engine\IGame.hpp" />
     <ClInclude Include="..\game\engine\Renderer.hpp" />
     <ClInclude Include="..\game\engine\Window.hpp" />
+    <ClInclude Include="..\game\game\ECSManager.hpp" />
+    <ClInclude Include="..\game\game\Game.hpp" />
+    <ClInclude Include="..\game\game\IScene.hpp" />
+    <ClInclude Include="..\game\game\SceneGame.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

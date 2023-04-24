@@ -7,6 +7,9 @@
     <Filter Include="Engine">
       <UniqueIdentifier>{25193707-58be-4279-9981-71220ef0e0bf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{1bc2d5f2-a441-40d9-9e26-e02c67fcb2fe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\game\src\Main.cpp">
@@ -26,6 +29,15 @@
     </ClCompile>
     <ClCompile Include="..\game\engine\GMath.cpp">
       <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\game\game\SceneGame.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\game\game\Game.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\game\game\ECSManager.cpp">
+      <Filter>Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -49,6 +61,18 @@
     </ClInclude>
     <ClInclude Include="..\game\engine\GMath.hpp">
       <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\game\game\IScene.hpp">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\game\game\SceneGame.hpp">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\game\game\Game.hpp">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\game\game\ECSManager.hpp">
+      <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
