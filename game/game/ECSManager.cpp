@@ -90,6 +90,7 @@ void ECSManager::SystemInputUpdate(f32 dt)
 		auto& rb = GetComponent<Rigidbody2D>(input.entityId);
 		auto& transform = GetComponent<Transform2D>(rb.entityId);
 
+		//Mouvement
 		float forwardSpeed = 0.0f;
 		if (IsKeyDown(KEY_UP))
 		{
@@ -101,7 +102,7 @@ void ECSManager::SystemInputUpdate(f32 dt)
 		}
 		rb.forwardVelocity = forwardSpeed;
 
-
+		//Tourne
 		float angularSpeed = 0.0f;
 		if (IsKeyDown(KEY_LEFT))
 		{
@@ -112,6 +113,7 @@ void ECSManager::SystemInputUpdate(f32 dt)
 			angularSpeed -= input.maxAngularSpeed;
 		}
 
+		//++ToDo: faire en sorte que ça soit dans le RB avec un angular velocity
 		if (!Maths::nearZero(angularSpeed))
 		{
 			transform.rotation = transform.rotation + angularSpeed * dt;
@@ -177,7 +179,7 @@ void ECSManager::SystemPhysicsUpdate(f32 dt)
 		Vector2 newPos = transform.pos + transform.GetForward() * rb.forwardVelocity * dt;	//Move forward
 		transform.pos = newPos;
 		rb.pos = transform.pos;
-		DrawRay({ {transform.pos.x,transform.pos.y,0 },{forward.x,forward.y,0 } }, GREEN);
+		//DrawRay({ {transform.pos.x,transform.pos.y,0 },{forward.x,forward.y,0 } }, GREEN);
 
 
 		//transform.pos = { transform.pos.x + rb.velocity.x * dt, transform.pos.y + rb.velocity.y *dt };

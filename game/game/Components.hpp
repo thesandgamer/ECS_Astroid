@@ -67,7 +67,9 @@ struct Rigidbody2D
 	Vector2 pos{ 0.0f, 0.0f };
 	Rectangle boundingBox{ 0, 0, 1, 1 };
 	Vector2 velocity{ 0.0f, 0.0f };
+
 	float forwardVelocity{ 0 };
+	float angularSpeed{ 0 };
 
 	[[nodiscard]] Rectangle GetPositionedRectangle() const {
 		return Rectangle{ pos.x + boundingBox.x, pos.y + boundingBox.y, boundingBox.width, boundingBox.height };
