@@ -2,6 +2,7 @@
 #include "Renderer.hpp"
 #include "raylib.h"
 
+
 namespace render 
 {
 	void BeginDraw() {

@@ -7,6 +7,7 @@ u64 ECSManager::maxId = 0;
 void ECSManager::UpdateScene(f32 dt) 
 {
 	SystemPhysicsUpdate(dt);
+	SystemInputUpdate(dt);
 }
 
 void ECSManager::DrawScene() 
@@ -49,6 +50,14 @@ Rigidbody2D& ECSManager::CreateRigidbody2DComponent(u64 entityId, const Vector2&
 	return bodies.back();
 }
 
+Input& ECSManager::CreateInputComponent(u64 entityId)
+{
+	i32 newComponentId = static_cast<i32>(inputs.size());
+	inputs.emplace_back(entityId);
+	UpdateEntityWithComponent(entityId, newComponentId, ComponentIndex::Input);
+	return inputs.back();
+}
+
 void ECSManager::UpdateEntityWithComponent(u64 entityId, i32 newComponentId, ComponentIndex componentIndex) 
 {
 	i32 iComponentIndex = static_cast<i32>(componentIndex);
@@ -71,37 +80,44 @@ void ECSManager::SystemSpriteDraw()
 
 }
 
-void ECSManager::SystemInputUpdate()
+#include <iostream>
+
+void ECSManager::SystemInputUpdate(f32 dt)
 {
 	for (auto input : inputs)
 	{
-		/*
+
 		auto& rb = GetComponent<Rigidbody2D>(input.entityId);
 		auto& transform = GetComponent<Transform2D>(rb.entityId);
 
 		float forwardSpeed = 0.0f;
-		if (keyState[forwardKey])
+		if (IsKeyDown(KEY_UP))
 		{
 			forwardSpeed += input.maxForwardSpeed;
 		}
-		if (keyState[backKey])
+		if (IsKeyDown(KEY_DOWN))
 		{
 			forwardSpeed -= input.maxForwardSpeed;
 		}
-
-		rb.velocity.x = forwardSpeed;
+		rb.forwardVelocity = forwardSpeed;
 
 
 		float angularSpeed = 0.0f;
-		if (keyState[clockwiseKey])
-		{
-			angularSpeed -= input.maxAngularSpeed;
-		}
-		if (keyState[counterClockwiseKey])
+		if (IsKeyDown(KEY_LEFT))
 		{
 			angularSpeed += input.maxAngularSpeed;
 		}
-		transform.rotation = angularSpeed;*/
+		if (IsKeyDown(KEY_RIGHT))
+		{
+			angularSpeed -= input.maxAngularSpeed;
+		}
+
+		if (!Maths::nearZero(angularSpeed))
+		{
+			transform.rotation = transform.rotation + angularSpeed * dt;
+		}
+		std::cout << angularSpeed << std::endl;
+
 	}
 }
 
@@ -155,11 +171,16 @@ void ECSManager::SystemPhysicsUpdate(f32 dt)
 	for (auto rb : bodies)
 	{
 		auto& transform = GetComponent<Transform2D>(rb.entityId);
+
+
 		Vector2 forward = transform.GetForward();
 		Vector2 newPos = transform.pos + transform.GetForward() * rb.forwardVelocity * dt;	//Move forward
- 		//transform.pos = { transform.pos.x + rb.velocity.x * dt, transform.pos.y + rb.velocity.y *dt };
 		transform.pos = newPos;
 		rb.pos = transform.pos;
 		DrawRay({ {transform.pos.x,transform.pos.y,0 },{forward.x,forward.y,0 } }, GREEN);
+
+
+		//transform.pos = { transform.pos.x + rb.velocity.x * dt, transform.pos.y + rb.velocity.y *dt };
+
 	}
 }

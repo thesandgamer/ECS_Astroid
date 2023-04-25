@@ -101,17 +101,14 @@ struct Movement
 
 struct Input
 {
-	explicit Input(u64 entityIdP)
+	explicit Input(u64 entityIdP): entityId(entityIdP)
 	{}
 	u64 entityId;
 
-	float maxForwardSpeed;
-	float maxAngularSpeed;
+	float maxForwardSpeed {250};
+	float maxAngularSpeed {3};
 
-	int forwardKey;
-	int backKey;
-	int clockwiseKey;
-	int counterClockwiseKey;
+
 
 };
 

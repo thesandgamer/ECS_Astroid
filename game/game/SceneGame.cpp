@@ -16,13 +16,16 @@ void SceneGame::Load()
 	u64 ship = ecs->CreateEntity(); //Entité vaisseau
 	Transform2D& shipTrsf = ecs->CreateTransform2DComponent(ship);
 	shipTrsf.pos = { 400,400 };
-	shipTrsf.rotation = 2;
+//	shipTrsf.rotation = 1;
 
 	Sprite& shipSprite = ecs->CreateSpriteComponent(ship, "Ship");
 	Rectangle& shipCollisionBoxSize = shipSprite.srcRect;
 	Rigidbody2D& shipRB = ecs->CreateRigidbody2DComponent(ship, shipTrsf.pos, shipCollisionBoxSize);
 	//shipRB.velocity = { 40,40 };
-	shipRB.forwardVelocity = 40;
+	//shipRB.forwardVelocity = 100;
+
+	Input& shipInput = ecs->CreateInputComponent(ship);
+
 
 	
 }

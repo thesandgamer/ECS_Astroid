@@ -26,6 +26,7 @@ public:
 	Transform2D& CreateTransform2DComponent(u64 entityId);
 	Sprite& CreateSpriteComponent(u64 entityId, const str& texName);
 	Rigidbody2D& CreateRigidbody2DComponent(u64 entityId, const Vector2& pos, const Rectangle& box);
+	Input& CreateInputComponent(u64 entityId);
 
 	template<class T>
 	T& GetComponent(u64 entityId) {
@@ -37,6 +38,9 @@ public:
 		}
 		else if constexpr (std::is_same_v<T, Rigidbody2D>) {
 			return bodies.at(FindEntityComponent(entityId, ComponentIndex::Rigidbody2D));
+		}
+		else if constexpr (std::is_same_v<T, Input>) {
+			return inputs.at(FindEntityComponent(entityId, ComponentIndex::Input));
 		}
 	}
 
@@ -61,7 +65,7 @@ private:
 
 	void SystemPhysicsUpdate(f32 dt);
 	void SystemSpriteDraw();
-	void SystemInputUpdate();
+	void SystemInputUpdate(f32 dt);
 
 
 	template<class T>
@@ -88,6 +92,9 @@ private:
 		}
 		else if constexpr (std::is_same_v<T, Rigidbody2D>) {
 			RemoveComponent<Rigidbody2D>(bodies, removedEntity, ComponentIndex::Rigidbody2D);
+		}
+		else if constexpr (std::is_same_v<T, Input>) {
+			RemoveComponent<Input>(inputs, removedEntity, ComponentIndex::Input);
 		}
 	}
 
