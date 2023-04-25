@@ -52,13 +52,16 @@ private:
 	vector<Transform2D> transforms;
 	vector<Sprite> sprites;
 	vector<Rigidbody2D> bodies;
+	vector<Input> inputs;
 
 	i32 FindEntityComponent(u64 entityId, ComponentIndex componentIndex);
 
 	void UpdateEntityWithComponent(u64 entityId, i32 newComponentId, ComponentIndex componentIndex);
 	void CleanRemovedEntities();
+
 	void SystemPhysicsUpdate(f32 dt);
 	void SystemSpriteDraw();
+	void SystemInputUpdate();
 
 
 	template<class T>

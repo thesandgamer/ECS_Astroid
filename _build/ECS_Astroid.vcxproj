@@ -190,6 +190,7 @@
     <ClInclude Include="..\game\engine\Engine.hpp" />
     <ClInclude Include="..\game\engine\GMath.hpp" />
     <ClInclude Include="..\game\engine\IGame.hpp" />
+    <ClInclude Include="..\game\engine\Maths.h" />
     <ClInclude Include="..\game\engine\Renderer.hpp" />
     <ClInclude Include="..\game\engine\Window.hpp" />
     <ClInclude Include="..\game\game\Components.hpp" />

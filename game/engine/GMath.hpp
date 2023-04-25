@@ -9,6 +9,7 @@
 Vector2 operator+(Vector2 lh, Vector2 rh);
 Vector2 operator-(Vector2 lh, Vector2 rh);
 Vector2 operator*(Vector2 v, f32 f);
+Vector2 operator*(Vector2 v, Vector2 f);
 Vector2 operator*(f32 f, Vector2 v);
 Vector2 operator/(Vector2 v, f32 f);
 Vector2 operator/(f32 f, Vector2 v);

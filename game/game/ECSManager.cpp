@@ -1,4 +1,6 @@
 #include "ECSManager.hpp"
+#include "raylib.h"
+#include "engine/GMath.hpp"
 
 u64 ECSManager::maxId = 0;
 
@@ -58,7 +60,8 @@ void ECSManager::SystemSpriteDraw()
 {
 	for (auto& sprite : sprites) {
 		Color colorAlpha{ 255, 255, 255, sprite.opacity };
-		render::DrawSprite(sprite.tex, sprite.srcRect, sprite.dstRect, colorAlpha);
+		const auto& transform = GetComponent<Transform2D>(sprite.entityId);
+		render::DrawSprite(sprite.tex, sprite.srcRect, sprite.dstRect,colorAlpha, transform.rotation * -RAD2DEG);
 	}
 #ifdef GDEBUG
 	for (auto& body : bodies) {
@@ -66,6 +69,40 @@ void ECSManager::SystemSpriteDraw()
 	}
 #endif
 
+}
+
+void ECSManager::SystemInputUpdate()
+{
+	for (auto input : inputs)
+	{
+		/*
+		auto& rb = GetComponent<Rigidbody2D>(input.entityId);
+		auto& transform = GetComponent<Transform2D>(rb.entityId);
+
+		float forwardSpeed = 0.0f;
+		if (keyState[forwardKey])
+		{
+			forwardSpeed += input.maxForwardSpeed;
+		}
+		if (keyState[backKey])
+		{
+			forwardSpeed -= input.maxForwardSpeed;
+		}
+
+		rb.velocity.x = forwardSpeed;
+
+
+		float angularSpeed = 0.0f;
+		if (keyState[clockwiseKey])
+		{
+			angularSpeed -= input.maxAngularSpeed;
+		}
+		if (keyState[counterClockwiseKey])
+		{
+			angularSpeed += input.maxAngularSpeed;
+		}
+		transform.rotation = angularSpeed;*/
+	}
 }
 
 void ECSManager::RemoveEntity(u64 entityId) 
@@ -115,5 +152,14 @@ void ECSManager::PrepareDraw()
 
 void ECSManager::SystemPhysicsUpdate(f32 dt)
 {
-
+	for (auto rb : bodies)
+	{
+		auto& transform = GetComponent<Transform2D>(rb.entityId);
+		Vector2 forward = transform.GetForward();
+		Vector2 newPos = transform.pos + transform.GetForward() * rb.forwardVelocity * dt;	//Move forward
+ 		//transform.pos = { transform.pos.x + rb.velocity.x * dt, transform.pos.y + rb.velocity.y *dt };
+		transform.pos = newPos;
+		rb.pos = transform.pos;
+		DrawRay({ {transform.pos.x,transform.pos.y,0 },{forward.x,forward.y,0 } }, GREEN);
+	}
 }

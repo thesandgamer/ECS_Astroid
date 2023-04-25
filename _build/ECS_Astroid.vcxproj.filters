@@ -80,5 +80,8 @@
     <ClInclude Include="..\game\game\Components.hpp">
       <Filter>Game</Filter>
     </ClInclude>
+    <ClInclude Include="..\game\engine\Maths.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

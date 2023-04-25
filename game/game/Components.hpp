@@ -10,6 +10,8 @@
 #include "engine/AssetsManager.hpp"
 #include "engine/Renderer.hpp"
 
+#include "engine/Maths.h"
+
 class ECSManager;
 using std::vector;
 
@@ -18,6 +20,7 @@ enum class ComponentIndex
 	Transform2D = 0,
 	Sprite = 1,
 	Rigidbody2D = 2,
+	Input = 3,
 
 };
 
@@ -27,7 +30,10 @@ struct Transform2D
 	u64 entityId;
 	Vector2 pos{ 0.0f, 0.0f };
 	float rotation{ 0.0f };
-	Vector2 scale{ 0.0f, 0.0f };
+	Vector2 scale{ 1.0f, 1.0f };
+	Vector2 GetForward() const {
+		return Vector2(Maths::cos(rotation), -Maths::sin(rotation));
+	}
 };
 
 struct Sprite 
@@ -61,6 +67,7 @@ struct Rigidbody2D
 	Vector2 pos{ 0.0f, 0.0f };
 	Rectangle boundingBox{ 0, 0, 1, 1 };
 	Vector2 velocity{ 0.0f, 0.0f };
+	float forwardVelocity{ 0 };
 
 	[[nodiscard]] Rectangle GetPositionedRectangle() const {
 		return Rectangle{ pos.x + boundingBox.x, pos.y + boundingBox.y, boundingBox.width, boundingBox.height };
@@ -83,6 +90,30 @@ struct Rigidbody2D
 #endif
 };
 
+struct Movement
+{
+	explicit Movement(u64 entityIdP)
+	{}
+	u64 entityId;
+
+
+};
+
+struct Input
+{
+	explicit Input(u64 entityIdP)
+	{}
+	u64 entityId;
+
+	float maxForwardSpeed;
+	float maxAngularSpeed;
+
+	int forwardKey;
+	int backKey;
+	int clockwiseKey;
+	int counterClockwiseKey;
+
+};
 
 // Utils
 struct Collision2D {
