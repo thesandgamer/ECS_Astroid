@@ -105,12 +105,11 @@ i32 ECSManager::FindEntityComponent(u64 entityId, ComponentIndex componentIndex)
 
 void ECSManager::PrepareDraw() 
 {
-
 	// Update sprite positions
-	for (auto& sprite : sprites) {
+	for (auto& sprite : sprites) 
+	{
 		const auto& transform = GetComponent<Transform2D>(sprite.entityId);
-		sprite.dstRect = { transform.pos.x, transform.pos.y,
-		static_cast<float>(sprite.tex.width), static_cast<float>(sprite.tex.height) };
+		sprite.dstRect = { transform.pos.x, transform.pos.y, static_cast<float>(sprite.tex.width) * transform.scale.x, static_cast<float>(sprite.tex.height) * transform.scale.y};
 	}
 }
 

@@ -18,6 +18,7 @@ enum class ComponentIndex
 	Transform2D = 0,
 	Sprite = 1,
 	Rigidbody2D = 2,
+
 };
 
 struct Transform2D
