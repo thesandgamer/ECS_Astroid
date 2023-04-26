@@ -5,6 +5,9 @@
 #ifndef ENGINEIMPL_DEFINES_HPP
 #define ENGINEIMPL_DEFINES_HPP
 
+#define WINDOW_WIDTH 1280
+#define WINDOW_HEIGHT 720
+
 // Types
 using u8 = unsigned char;
 using u16 = unsigned short;

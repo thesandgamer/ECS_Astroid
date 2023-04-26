@@ -4,6 +4,8 @@
 #include <vector>
 #include <variant>
 #include <memory>
+#include <iostream>
+
 
 #include "engine/Defines.hpp"
 #include "game/Entity.hpp"

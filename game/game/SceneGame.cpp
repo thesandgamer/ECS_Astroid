@@ -19,19 +19,7 @@ void SceneGame::Load()
 	AssetsManager::LoadTexture("Ship", "game\\asset\\Ship.png", sceneId);
 	AssetsManager::LoadTexture("Astroid", "game\\asset\\Astroid.png", sceneId);
 
-	//==========] SHIP [==========//
-	u64 ship = ecs->CreateEntity(); //Entité vaisseau
-	Transform2D& shipTrsf = ecs->CreateTransform2DComponent(ship);
-	shipTrsf.pos = { 400,400 };
-
-	Sprite& shipSprite = ecs->CreateSpriteComponent(ship, "Ship");
-	Rectangle& shipCollisionBoxSize = shipSprite.srcRect;
-	Rigidbody2D& shipRB = ecs->CreateRigidbody2DComponent(ship, shipTrsf.pos, shipCollisionBoxSize);
-
-
-	Input& shipInput = ecs->CreateInputComponent(ship);
-
-
+	
 	//==========] Astroids [==========//
 	
 	
@@ -76,6 +64,20 @@ void SceneGame::Load()
 		astroidTransform.rotation = randRot;
 		astroidRb.forwardVelocity = randVel;
 	}
+
+	//==========] SHIP [==========//
+	u64 ship = ecs->CreateEntity(); //Entité vaisseau
+	Transform2D& shipTrsf = ecs->CreateTransform2DComponent(ship);
+	shipTrsf.pos = { 400,400 };
+
+	Sprite& shipSprite = ecs->CreateSpriteComponent(ship, "Ship");
+	Rectangle& shipCollisionBoxSize = shipSprite.srcRect;
+	Rigidbody2D& shipRB = ecs->CreateRigidbody2DComponent(ship, shipTrsf.pos, shipCollisionBoxSize);
+
+
+	Input& shipInput = ecs->CreateInputComponent(ship);
+
+	//==========] Projectile [==========// ?????
 
 
 	

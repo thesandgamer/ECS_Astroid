@@ -17,6 +17,7 @@
 #include "game/Game.hpp"
 
 
+
 //----------------------------------------------------------------------------------
 // Main entry point
 //----------------------------------------------------------------------------------
@@ -24,7 +25,7 @@ int main(void)
 {
 
     Engine engine;
-    engine.Start(1280,720,"ECS implementation", std::make_unique<Game>());
+    engine.Start(WINDOW_WIDTH, WINDOW_HEIGHT,"ECS implementation", std::make_unique<Game>());
 
     return 0;
 }

@@ -14,3 +14,4 @@ Window::~Window() {
 bool Window::ShouldClose() {
 	return WindowShouldClose();
 }
+
