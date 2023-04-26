@@ -68,6 +68,10 @@ void ECSManager::UpdateEntityWithComponent(u64 entityId, i32 newComponentId, Com
 
 }
 
+
+
+
+
 void ECSManager::SystemSpriteDraw() 
 {
 	for (auto& sprite : sprites) {
@@ -83,7 +87,45 @@ void ECSManager::SystemSpriteDraw()
 
 }
 
-#include <iostream>
+void ECSManager::SystemPhysicsUpdate(f32 dt)
+{
+	//Faire la logique des changements et Stoquer les changements sur une entité: ex: vecteur sur lequel on stoquerait des changements et sur quel entité on les fait : dans le thread
+	//Puis Appliquer les changements une fois le thread finit
+
+	for (auto rb : bodies)
+	{
+		auto& transform = GetComponent<Transform2D>(rb.entityId);
+
+
+		Vector2 forward = transform.GetForward();
+		Vector2 newPos = transform.pos + transform.GetForward() * rb.forwardVelocity * dt;	//Move forward
+		transform.pos = newPos;
+		rb.pos = transform.pos;
+		//DrawRay({ {transform.pos.x,transform.pos.y,0 },{forward.x,forward.y,0 } }, GREEN);
+
+
+		//transform.pos = { transform.pos.x + rb.velocity.x * dt, transform.pos.y + rb.velocity.y *dt };
+
+		const auto& sprite = GetComponent<Sprite>(transform.entityId);
+		const int texHeight = sprite.tex.height;
+		const int texWidth = sprite.tex.width;
+
+		//Replace les objets si sortent de l'écran
+		if (transform.pos.x + texWidth < 0) {
+			transform.pos.x = WINDOW_WIDTH;
+		}
+		else if (transform.pos.x > WINDOW_WIDTH) {
+			transform.pos.x = 0 - texWidth;
+		}
+		else if (transform.pos.y + texHeight < 0) {
+			transform.pos.y = WINDOW_HEIGHT;
+		}
+		else if (transform.pos.y > WINDOW_HEIGHT) {
+			transform.pos.y = 0 - texHeight;
+		}
+
+	}
+}
 
 void ECSManager::SystemInputUpdate(f32 dt)
 {
@@ -125,6 +167,12 @@ void ECSManager::SystemInputUpdate(f32 dt)
 
 	}
 }
+
+
+
+
+
+
 
 void ECSManager::RemoveEntity(u64 entityId) 
 {
@@ -171,21 +219,3 @@ void ECSManager::PrepareDraw()
 	}
 }
 
-void ECSManager::SystemPhysicsUpdate(f32 dt)
-{
-	for (auto rb : bodies)
-	{
-		auto& transform = GetComponent<Transform2D>(rb.entityId);
-
-
-		Vector2 forward = transform.GetForward();
-		Vector2 newPos = transform.pos + transform.GetForward() * rb.forwardVelocity * dt;	//Move forward
-		transform.pos = newPos;
-		rb.pos = transform.pos;
-		//DrawRay({ {transform.pos.x,transform.pos.y,0 },{forward.x,forward.y,0 } }, GREEN);
-
-
-		//transform.pos = { transform.pos.x + rb.velocity.x * dt, transform.pos.y + rb.velocity.y *dt };
-
-	}
-}
