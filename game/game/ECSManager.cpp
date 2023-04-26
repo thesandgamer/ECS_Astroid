@@ -1,13 +1,16 @@
 #include "ECSManager.hpp"
 #include "raylib.h"
 #include "engine/GMath.hpp"
+#include "engine/Jobs.hpp"
 
 u64 ECSManager::maxId = 0;
 
 void ECSManager::UpdateScene(f32 dt) 
 {
-	SystemPhysicsUpdate(dt);
 	SystemInputUpdate(dt);
+	SystemPhysicsUpdate(dt);
+	//jobs::Execute([this, dt] {SystemPhysicsUpdate(dt); });	//Peut pas faire ça car la fonction à besoin de data autre part : data sahring
+	jobs::Wait();
 }
 
 void ECSManager::DrawScene() 

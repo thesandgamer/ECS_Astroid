@@ -39,6 +39,9 @@
     <ClCompile Include="..\game\game\ECSManager.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="..\game\engine\Jobs.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\game\engine\Defines.hpp">
@@ -81,6 +84,9 @@
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="..\game\engine\Maths.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\game\engine\Jobs.hpp">
       <Filter>Engine</Filter>
     </ClInclude>
   </ItemGroup>
