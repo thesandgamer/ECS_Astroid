@@ -78,6 +78,10 @@ void SceneGame::Load()
 	Input& shipInput = ecs->CreateInputComponent(ship);
 
 	//==========] Projectile [==========// ?????
+	//Trouver comment bien détruire les entités et remove leurs components
+	//Créer un component shooting: pour permettre de tirer des projectiles
+	//Créer un component life manager: pour prendre des damages et gérer sa vie
+	//Créer un component damages maker: pour faire des damages
 
 
 	
