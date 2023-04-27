@@ -21,6 +21,7 @@ enum class ComponentIndex
 	Sprite = 1,
 	Rigidbody2D = 2,
 	Input = 3,
+	Shoot = 4,
 
 };
 
@@ -111,6 +112,16 @@ struct Input
 	float maxAngularSpeed {3};
 
 
+
+};
+
+struct Shooting
+{
+	explicit Shooting(u64 entityIdP): entityId(entityIdP)
+	{}
+	u64 entityId;
+	//Delay entre les tirs
+	//
 
 };
 

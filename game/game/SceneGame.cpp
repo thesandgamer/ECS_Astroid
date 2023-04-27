@@ -14,10 +14,15 @@ SceneGame::SceneGame(shared_ptr<ECSManager> ecsRef,Game& game) : ecs{ std::move(
 
 void SceneGame::Load() 
 {
+	srand((unsigned)time(0));
+
 	i32 sceneId = ToSceneId(SceneName::SceneGame);
 
-	AssetsManager::LoadTexture("Ship", "game\\asset\\Ship.png", sceneId);
-	AssetsManager::LoadTexture("Astroid", "game\\asset\\Astroid.png", sceneId);
+
+	//==========] Load Textures [==========//
+	AssetsManager::LoadTexture("Ship", "../game/asset/Ship.png", sceneId);
+	AssetsManager::LoadTexture("Astroid", "../game/asset/Astroid.png", sceneId);
+	AssetsManager::LoadTexture("Laser", "../game/asset/Laser.png", sceneId);
 
 	
 	//==========] Astroids [==========//

@@ -102,7 +102,11 @@ void ECSManager::SystemPhysicsUpdate(f32 dt)
 		transform.pos = newPos;
 		rb.pos = transform.pos;
 		//DrawRay({ {transform.pos.x,transform.pos.y,0 },{forward.x,forward.y,0 } }, GREEN);
-
+				//++ToDo: faire en sorte que ça soit dans le RB avec un angular velocity
+		if (!Maths::nearZero(rb.angularSpeed))
+		{
+			transform.rotation = transform.rotation + rb.angularSpeed * dt;
+		}
 
 		//transform.pos = { transform.pos.x + rb.velocity.x * dt, transform.pos.y + rb.velocity.y *dt };
 
@@ -157,13 +161,15 @@ void ECSManager::SystemInputUpdate(f32 dt)
 		{
 			angularSpeed -= input.maxAngularSpeed;
 		}
+		rb.angularSpeed = angularSpeed;
 
-		//++ToDo: faire en sorte que ça soit dans le RB avec un angular velocity
-		if (!Maths::nearZero(angularSpeed))
+		if (IsKeyDown(KEY_SPACE))
 		{
-			transform.rotation = transform.rotation + angularSpeed * dt;
+			//Make shoot
 		}
-		std::cout << angularSpeed << std::endl;
+
+
+		//std::cout << angularSpeed << std::endl;
 
 	}
 }
