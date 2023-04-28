@@ -28,10 +28,15 @@ enum class ComponentIndex
 struct Transform2D
 {
 	explicit Transform2D(u64 entityIdP) : entityId{ entityIdP } {}
+
 	u64 entityId;
+
 	Vector2 pos{ 0.0f, 0.0f };
+
 	float rotation{ 0.0f };
+
 	Vector2 scale{ 1.0f, 1.0f };
+
 	Vector2 GetForward() const {
 		return Vector2(Maths::cos(rotation), -Maths::sin(rotation));
 	}
@@ -65,12 +70,13 @@ struct Rigidbody2D
 	{}
 
 	u64 entityId;
+
 	Vector2 pos{ 0.0f, 0.0f };
 	Rectangle boundingBox{ 0, 0, 1, 1 };
 	Vector2 velocity{ 0.0f, 0.0f };
 
 	float forwardVelocity{ 0 };
-	float angularSpeed{ 0 };
+	float angularVelocity{ 0 };
 
 	[[nodiscard]] Rectangle GetPositionedRectangle() const {
 		return Rectangle{ pos.x + boundingBox.x, pos.y + boundingBox.y, boundingBox.width, boundingBox.height };
@@ -117,11 +123,15 @@ struct Input
 
 struct Shooting
 {
-	explicit Shooting(u64 entityIdP): entityId(entityIdP)
+	explicit Shooting(u64 entityIdP, float shootIntervalP) : entityId(entityIdP), shootInterval(shootIntervalP)
 	{}
 	u64 entityId;
+
 	//Delay entre les tirs
-	//
+	float shootInterval{ 1 };
+
+	bool canShoot{ false };
+
 
 };
 

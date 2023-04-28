@@ -29,6 +29,7 @@ public:
 	Sprite& CreateSpriteComponent(u64 entityId, const str& texName);
 	Rigidbody2D& CreateRigidbody2DComponent(u64 entityId, const Vector2& pos, const Rectangle& box);
 	Input& CreateInputComponent(u64 entityId);
+	Shooting& CreateShootingComponent(u64 entityId,const float& shootInterval);
 
 	template<class T>
 	T& GetComponent(u64 entityId) {
@@ -43,6 +44,13 @@ public:
 		}
 		else if constexpr (std::is_same_v<T, Input>) {
 			return inputs.at(FindEntityComponent(entityId, ComponentIndex::Input));
+		}
+		else if constexpr (std::is_same_v<T, Shooting>) {
+			return shootings.at(FindEntityComponent(entityId, ComponentIndex::Shoot));
+		}
+		else
+		{
+			return nullptr;
 		}
 	}
 
@@ -59,6 +67,7 @@ private:
 	vector<Sprite> sprites;
 	vector<Rigidbody2D> bodies;
 	vector<Input> inputs;
+	vector<Shooting> shootings;
 
 	i32 FindEntityComponent(u64 entityId, ComponentIndex componentIndex);
 
@@ -68,6 +77,7 @@ private:
 	void SystemPhysicsUpdate(f32 dt);
 	void SystemSpriteDraw();
 	void SystemInputUpdate(f32 dt);
+	void SystemShootingUpdate(f32 dt);
 
 
 	template<class T>

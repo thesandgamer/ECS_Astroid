@@ -21,13 +21,12 @@ void SceneGame::Load()
 
 	//==========] Load Textures [==========//
 	AssetsManager::LoadTexture("Ship", "../game/asset/Ship.png", sceneId);
+	AssetsManager::LoadTexture("ShipWithThrust", "../game/asset/ShipWithThrust.png", sceneId);
 	AssetsManager::LoadTexture("Astroid", "../game/asset/Astroid.png", sceneId);
 	AssetsManager::LoadTexture("Laser", "../game/asset/Laser.png", sceneId);
 
 	
 	//==========] Astroids [==========//
-	
-	
 	u64 astroid = ecs->CreateEntity(); //Entité vaisseau
 	Transform2D& astroidTrsf = ecs->CreateTransform2DComponent(astroid);
 	astroidTrsf.pos = { 600,600 };
@@ -68,6 +67,7 @@ void SceneGame::Load()
 		Rigidbody2D& astroidRb = ecs->CreateRigidbody2DComponent(astroid, Vector2{ 0, 0 }, astroidSprite.srcRect);
 		astroidTransform.rotation = randRot;
 		astroidRb.forwardVelocity = randVel;
+		//astroidRB.angularVelocity = 1.0f; //Si rajoute ça ça plante
 	}
 
 	//==========] SHIP [==========//
@@ -78,6 +78,7 @@ void SceneGame::Load()
 	Sprite& shipSprite = ecs->CreateSpriteComponent(ship, "Ship");
 	Rectangle& shipCollisionBoxSize = shipSprite.srcRect;
 	Rigidbody2D& shipRB = ecs->CreateRigidbody2DComponent(ship, shipTrsf.pos, shipCollisionBoxSize);
+	Shooting& shipShoot = ecs->CreateShootingComponent(ship, 1);
 
 
 	Input& shipInput = ecs->CreateInputComponent(ship);
@@ -88,6 +89,15 @@ void SceneGame::Load()
 	//Créer un component life manager: pour prendre des damages et gérer sa vie
 	//Créer un component damages maker: pour faire des damages
 
+	u64 laser = ecs->CreateEntity(); //Entité vaisseau
+	Transform2D& laserTrsf = ecs->CreateTransform2DComponent(laser);
+	laserTrsf.pos = { 400,400 };
+	Sprite& laserSprite = ecs->CreateSpriteComponent(laser, "Laser");
+	Rectangle& laserCollisionBoxSize = laserSprite.srcRect;
+	Rigidbody2D& laserRB = ecs->CreateRigidbody2DComponent(laser, laserTrsf.pos, laserCollisionBoxSize);
+	laserRB.forwardVelocity = 40;
+
+	//ecs->RemoveEntity(laser);
 
 	
 }

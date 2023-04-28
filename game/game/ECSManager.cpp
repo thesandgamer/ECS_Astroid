@@ -8,6 +8,7 @@ u64 ECSManager::maxId = 0;
 void ECSManager::UpdateScene(f32 dt) 
 {
 	SystemInputUpdate(dt);
+	SystemShootingUpdate(dt);
 	SystemPhysicsUpdate(dt);
 	//jobs::Execute([this, dt] {SystemPhysicsUpdate(dt); });	//Peut pas faire ça car la fonction à besoin de data autre part : data sahring
 	jobs::Wait();
@@ -17,6 +18,7 @@ void ECSManager::DrawScene()
 {
 	SystemSpriteDraw();
 	CleanRemovedEntities();
+
 }
 
 u64 ECSManager::CreateEntity() 
@@ -61,6 +63,14 @@ Input& ECSManager::CreateInputComponent(u64 entityId)
 	return inputs.back();
 }
 
+Shooting& ECSManager::CreateShootingComponent(u64 entityId, const float& shootInterval)
+{
+	i32 newComponentId = static_cast<i32>(shootings.size());
+	shootings.emplace_back(entityId, shootInterval);
+	UpdateEntityWithComponent(entityId, newComponentId, ComponentIndex::Shoot);
+	return shootings.back();
+}
+
 void ECSManager::UpdateEntityWithComponent(u64 entityId, i32 newComponentId, ComponentIndex componentIndex) 
 {
 	i32 iComponentIndex = static_cast<i32>(componentIndex);
@@ -87,12 +97,14 @@ void ECSManager::SystemSpriteDraw()
 
 }
 
+//Pourquoi les valeurs des structures sont reset quand on les cahngent dans le code
+
 void ECSManager::SystemPhysicsUpdate(f32 dt)
 {
 	//Faire la logique des changements et Stoquer les changements sur une entité: ex: vecteur sur lequel on stoquerait des changements et sur quel entité on les fait : dans le thread
 	//Puis Appliquer les changements une fois le thread finit
 
-	for (auto rb : bodies)
+	for (auto& rb : bodies)
 	{
 		auto& transform = GetComponent<Transform2D>(rb.entityId);
 
@@ -102,10 +114,10 @@ void ECSManager::SystemPhysicsUpdate(f32 dt)
 		transform.pos = newPos;
 		rb.pos = transform.pos;
 		//DrawRay({ {transform.pos.x,transform.pos.y,0 },{forward.x,forward.y,0 } }, GREEN);
-				//++ToDo: faire en sorte que ça soit dans le RB avec un angular velocity
-		if (!Maths::nearZero(rb.angularSpeed))
+
+		if (!Maths::nearZero(rb.angularVelocity))
 		{
-			transform.rotation = transform.rotation + rb.angularSpeed * dt;
+			transform.rotation = transform.rotation + rb.angularVelocity * dt;	//Change la rotation si il y a un angular velocity
 		}
 
 		//transform.pos = { transform.pos.x + rb.velocity.x * dt, transform.pos.y + rb.velocity.y *dt };
@@ -133,7 +145,7 @@ void ECSManager::SystemPhysicsUpdate(f32 dt)
 
 void ECSManager::SystemInputUpdate(f32 dt)
 {
-	for (auto input : inputs)
+	for (auto& input : inputs)
 	{
 
 		auto& rb = GetComponent<Rigidbody2D>(input.entityId);
@@ -161,15 +173,52 @@ void ECSManager::SystemInputUpdate(f32 dt)
 		{
 			angularSpeed -= input.maxAngularSpeed;
 		}
-		rb.angularSpeed = angularSpeed;
+		rb.angularVelocity = angularSpeed;
 
+		//Il faudrait savoir si il trouve pas le component
+		Shooting& shooting = GetComponent<Shooting>(input.entityId);
 		if (IsKeyDown(KEY_SPACE))
 		{
 			//Make shoot
+			shooting.canShoot = true;
 		}
+	
+		
+		
 
 
 		//std::cout << angularSpeed << std::endl;
+
+	}
+}
+
+void ECSManager::SystemShootingUpdate(f32 dt)
+{
+	for (auto& shoot : shootings)
+	{
+
+		if (shoot.canShoot)
+		{
+
+			auto& transform = GetComponent<Transform2D>(shoot.entityId);
+			auto& rb = GetComponent<Rigidbody2D>(shoot.entityId);
+			
+
+			u64 laser = this->CreateEntity(); //Entité vaisseau
+			Transform2D& laserTrsf = this->CreateTransform2DComponent(laser);
+			laserTrsf.pos = { transform.pos.x,transform.pos.y };
+			Sprite& laserSprite = this->CreateSpriteComponent(laser, "Laser");
+			Rectangle& laserCollisionBoxSize = laserSprite.srcRect;
+			Rigidbody2D& laserRB = this->CreateRigidbody2DComponent(laser, laserTrsf.pos, laserCollisionBoxSize);
+			laserRB.forwardVelocity = 40;
+			laserTrsf.rotation = transform.rotation;
+
+			shoot.canShoot = false;
+			shoot.shootInterval = 14;
+
+
+		}
+
 
 	}
 }
@@ -194,6 +243,11 @@ void ECSManager::CleanRemovedEntities()
 		RemoveEntityComponent<Sprite>(entityId);
 		// Rigidbodies
 		RemoveEntityComponent<Rigidbody2D>(entityId);
+		//Inputs
+		RemoveEntityComponent<Input>(entityId);
+		//Shooting
+		RemoveEntityComponent<Shooting>(entityId);
+
 		std::erase(entityIds, entityId);
 		std::erase_if(entities, [=](Entity entity) {
 			return entity.id == entityId;
