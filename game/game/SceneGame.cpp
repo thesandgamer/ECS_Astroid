@@ -78,26 +78,11 @@ void SceneGame::Load()
 	Sprite& shipSprite = ecs->CreateSpriteComponent(ship, "Ship");
 	Rectangle& shipCollisionBoxSize = shipSprite.srcRect;
 	Rigidbody2D& shipRB = ecs->CreateRigidbody2DComponent(ship, shipTrsf.pos, shipCollisionBoxSize);
-	Shooting& shipShoot = ecs->CreateShootingComponent(ship, 1);
+	Shooting& shipShoot = ecs->CreateShootingComponent(ship, 0.5f);
 
 
 	Input& shipInput = ecs->CreateInputComponent(ship);
 
-	//==========] Projectile [==========// ?????
-	//Trouver comment bien détruire les entités et remove leurs components
-	//Créer un component shooting: pour permettre de tirer des projectiles
-	//Créer un component life manager: pour prendre des damages et gérer sa vie
-	//Créer un component damages maker: pour faire des damages
-
-	u64 laser = ecs->CreateEntity(); //Entité vaisseau
-	Transform2D& laserTrsf = ecs->CreateTransform2DComponent(laser);
-	laserTrsf.pos = { 400,400 };
-	Sprite& laserSprite = ecs->CreateSpriteComponent(laser, "Laser");
-	Rectangle& laserCollisionBoxSize = laserSprite.srcRect;
-	Rigidbody2D& laserRB = ecs->CreateRigidbody2DComponent(laser, laserTrsf.pos, laserCollisionBoxSize);
-	laserRB.forwardVelocity = 40;
-
-	//ecs->RemoveEntity(laser);
 
 	
 }

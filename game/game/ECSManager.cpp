@@ -194,30 +194,37 @@ void ECSManager::SystemInputUpdate(f32 dt)
 
 void ECSManager::SystemShootingUpdate(f32 dt)
 {
+
 	for (auto& shoot : shootings)
 	{
+		shoot.currentTime += dt;
 
-		if (shoot.canShoot)
+		if (shoot.currentTime >= shoot.shootInterval)
 		{
 
-			auto& transform = GetComponent<Transform2D>(shoot.entityId);
-			auto& rb = GetComponent<Rigidbody2D>(shoot.entityId);
-			
+			if (shoot.canShoot)
+			{
 
-			u64 laser = this->CreateEntity(); //Entité vaisseau
-			Transform2D& laserTrsf = this->CreateTransform2DComponent(laser);
-			laserTrsf.pos = { transform.pos.x,transform.pos.y };
-			Sprite& laserSprite = this->CreateSpriteComponent(laser, "Laser");
-			Rectangle& laserCollisionBoxSize = laserSprite.srcRect;
-			Rigidbody2D& laserRB = this->CreateRigidbody2DComponent(laser, laserTrsf.pos, laserCollisionBoxSize);
-			laserRB.forwardVelocity = 40;
-			laserTrsf.rotation = transform.rotation;
-
-			shoot.canShoot = false;
-			shoot.shootInterval = 14;
+				auto& transform = GetComponent<Transform2D>(shoot.entityId);
+				auto& rb = GetComponent<Rigidbody2D>(shoot.entityId);
 
 
+				u64 laser = this->CreateEntity(); //Entité vaisseau
+				Transform2D& laserTrsf = this->CreateTransform2DComponent(laser);
+				laserTrsf.pos = { transform.pos.x,transform.pos.y };
+				Sprite& laserSprite = this->CreateSpriteComponent(laser, "Laser");
+				Rectangle& laserCollisionBoxSize = laserSprite.srcRect;
+				Rigidbody2D& laserRB = this->CreateRigidbody2DComponent(laser, laserTrsf.pos, laserCollisionBoxSize);
+				laserRB.forwardVelocity = 400;
+				laserTrsf.rotation = transform.rotation;
+
+				shoot.canShoot = false;
+				shoot.currentTime = 0;
+
+
+			}
 		}
+
 
 
 	}

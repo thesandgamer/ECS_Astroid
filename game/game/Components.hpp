@@ -123,12 +123,13 @@ struct Input
 
 struct Shooting
 {
-	explicit Shooting(u64 entityIdP, float shootIntervalP) : entityId(entityIdP), shootInterval(shootIntervalP)
+	explicit Shooting(u64 entityIdP, float shootIntervalP) : entityId(entityIdP), shootInterval(shootIntervalP), currentTime(shootInterval)
 	{}
 	u64 entityId;
 
 	//Delay entre les tirs
 	float shootInterval{ 1 };
+	float currentTime{ 0 };
 
 	bool canShoot{ false };
 
